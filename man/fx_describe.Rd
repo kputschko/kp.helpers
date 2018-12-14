@@ -4,10 +4,12 @@
 \alias{fx_describe}
 \title{Title}
 \usage{
-fx_describe(data)
+fx_describe(data, output_format = "character")
 }
 \arguments{
 \item{data}{A data.frame}
+
+\item{output_format}{Type of values the output table should have.  Default is character for proper display.}
 }
 \value{
 character vector of names
