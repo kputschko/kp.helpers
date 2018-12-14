@@ -23,4 +23,5 @@ Imports:
     base,
     scales
 Suggests: 
-    testthat
+    testthat,
+    ggplot2

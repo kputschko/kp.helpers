@@ -2,5 +2,7 @@
 
 export("%>%")
 export(fx_describe)
+export(fx_plot_themes)
+export(fx_top_p)
 importFrom(foreach,"%do%")
 importFrom(magrittr,"%>%")
