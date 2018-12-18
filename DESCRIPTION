@@ -18,10 +18,10 @@ Imports:
     purrr,
     rlang,
     magrittr,
-    foreach,
     stats,
     base,
-    scales
+    scales,
+    foreach
 Suggests: 
     testthat,
     ggplot2
