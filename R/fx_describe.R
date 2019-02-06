@@ -2,8 +2,8 @@
 #'
 #' @param data A data.frame
 #' @param output_format Type of values the output table should have.  Default is "character" for proper display. Use "numeric" for unrounded values.
-#' @param include_percentiles Should a listing of percentiles be included in the output summary?
-#' @param probs The way in which the percentiles
+#' @param percentile_include Should a listing of percentiles be included in the output summary?
+#' @param percentile_probs The way in which the percentiles
 #'
 #' @return character vector of names
 #'

@@ -12,9 +12,9 @@ fx_describe(data, output_format = "character",
 
 \item{output_format}{Type of values the output table should have.  Default is "character" for proper display. Use "numeric" for unrounded values.}
 
-\item{include_percentiles}{Should a listing of percentiles be included in the output summary?}
+\item{percentile_include}{Should a listing of percentiles be included in the output summary?}
 
-\item{probs}{The way in which the percentiles}
+\item{percentile_probs}{The way in which the percentiles}
 }
 \value{
 character vector of names
