@@ -7,7 +7,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "kevin.putschko@experis.com")
 Description: This is a collection of scripts that I use often.
-License: GPL-3 
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1

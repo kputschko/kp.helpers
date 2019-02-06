@@ -5,6 +5,7 @@ test_that("check for invalid arguments", {
   expect_error(fx_describe("mtcars"))
   expect_error(fx_describe(list(mtcars)))
   expect_error(fx_describe(mtcars, output_format = "apples"))
+  expect_error(fx_describe(mtcars, percentile_include = "TREE"))
 })
 
 test_that("check for success", {

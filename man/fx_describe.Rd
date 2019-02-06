@@ -4,12 +4,17 @@
 \alias{fx_describe}
 \title{Title}
 \usage{
-fx_describe(data, output_format = "character")
+fx_describe(data, output_format = "character",
+  percentile_include = FALSE, percentile_probs = seq(0, 1, by = 0.1))
 }
 \arguments{
 \item{data}{A data.frame}
 
 \item{output_format}{Type of values the output table should have.  Default is "character" for proper display. Use "numeric" for unrounded values.}
+
+\item{include_percentiles}{Should a listing of percentiles be included in the output summary?}
+
+\item{probs}{The way in which the percentiles}
 }
 \value{
 character vector of names
