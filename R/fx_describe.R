@@ -58,7 +58,7 @@ fx_describe <- function(data,
                            "n_distinct" = dplyr::n_distinct(!! column_rlang, na.rm = TRUE),
                            "n_missing"  = sum(is.na(!! column_rlang))) %>%
           dplyr::mutate("column_name" = !! column_name,
-                        "column_type" = !! column_type,
+                        "column_type" = stringr::str_c(!! column_type, collapse = ", "),
                         "min" = NA,
                         "med" = NA,
                         "max" = NA,
@@ -88,7 +88,7 @@ fx_describe <- function(data,
                            "med" = stats::median(!! column_rlang, na.rm = TRUE),
                            "max" = max(!! column_rlang, na.rm = TRUE)) %>%
           dplyr::mutate("column_name" = !! column_name,
-                        "column_type" = !! column_type) %>%
+                        "column_type" = stringr::str_c(!! column_type, collapse = ", ")) %>%
           dplyr::select("column_name",
                         "column_type",
                         "n",
