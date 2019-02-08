@@ -51,7 +51,7 @@ fx_describe <- function(data,
       # filter_rlang <- rlang::parse_quo(x = stringr::str_glue("is.na({column_name})"), env = rlang::caller_env())
       # n_missing <- data %>% filter(!!! filter_rlang) %>% nrow()
 
-      if (column_type %>% stringr::str_detect(c("factor", "character"))) {
+      if (column_type %>% stringr::str_detect(c("factor", "character")) %>% any()) {
 
         data %>%
           dplyr::summarise("n" = dplyr::n(),
