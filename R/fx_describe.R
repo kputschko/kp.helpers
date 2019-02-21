@@ -40,8 +40,8 @@ fx_describe <- function(data,
 
 
   default_summary <-
-    # foreach::foreach(i = seq_along(data), .combine = "rbind") %do% {
-      foreach(i = 2, .combine = "rbind") %do% {
+    foreach::foreach(i = seq_along(data), .combine = "rbind") %do% {
+      # foreach(i = 2, .combine = "rbind") %do% {
 
       index <- i
       column_name  <- data %>% colnames() %>% purrr::pluck(index)
