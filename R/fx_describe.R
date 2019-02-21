@@ -39,7 +39,7 @@ fx_describe <- function(data,
   }
 
 
-  default_summary <-
+  summary_default <-
     foreach::foreach(i = seq_along(data), .combine = "rbind") %do% {
     # foreach(i = 7, .combine = "rbind") %do% {
 
@@ -47,9 +47,6 @@ fx_describe <- function(data,
       column_name  <- data %>% colnames() %>% purrr::pluck(index)
       column_type  <- data[[column_name]] %>% class()
       column_rlang <- rlang::sym(column_name)
-
-      # filter_rlang <- rlang::parse_quo(x = stringr::str_glue("is.na({column_name})"), env = rlang::caller_env())
-      # n_missing <- data %>% filter(!!! filter_rlang) %>% nrow()
 
       if (column_type %>% stringr::str_detect("factor|character|ordered") %>% any()) {
 
@@ -79,8 +76,7 @@ fx_describe <- function(data,
 
       } else {
 
-        calculations <-
-          data %>%
+        data %>%
           dplyr::summarise("n" = dplyr::n(),
                            "n_distinct" = dplyr::n_distinct(!! column_rlang, na.rm = TRUE),
                            "n_missing"  = sum(is.na(!! column_rlang)),
@@ -103,37 +99,43 @@ fx_describe <- function(data,
                         "mean",
                         "sd")
 
-        if (output_format == "character") {
-          calculations %>%
-            dplyr::mutate_at("pct_missing", scales::percent) %>%
-            dplyr::mutate_if(is.integer, scales::comma) %>%
-            # dplyr::mutate_if(is.numeric, ~scales::comma(x = ., accuracy = 0.0001)) %>%
-            tibble::as_tibble()
-        } else {
-          calculations %>% tibble::as_tibble()
-        }
-
-      } # close if-else
+      } # close char/num if-else
     } # close foreach
 
-  if (percentile_include) {
 
-    quantiles <-
-      mtcars %>%
-      purrr::map_if(is.numeric, quantile, probs = percentile_probs) %>%
-      tibble::enframe() %>%
-      tidyr::unnest() %>%
-      dplyr::group_by(name) %>%
-      dplyr::mutate("p" = sequence(n()),
-             "p2" = stringr::str_c(p*10, "%")) %>%
-      dplyr::select(-p) %>%
-      tidyr::spread(p2, value)
+  # Quantiles ---------------------------------------------------------------
+
+  summary_quantiles <-
+    if (!percentile_include) {summary_default} else {
+
+      quantiles <-
+        data %>%
+        purrr::map_if(is.numeric, quantile, probs = percentile_probs) %>%
+        tibble::enframe() %>%
+        tidyr::unnest() %>%
+        dplyr::group_by(name) %>%
+        dplyr::mutate("p" = sequence(n()),
+                      "p2" = stringr::str_c(p*10, "%")) %>%
+        dplyr::select(-p) %>%
+        tidyr::spread(p2, value)
 
 
-    default_summary %>% dplyr::left_join(quantiles)
+      summary_default %>% dplyr::left_join(quantiles)
 
+    }
+
+
+# Formatting --------------------------------------------------------------
+
+  if (output_format == "character") {
+    summary_quantiles %>%
+      dplyr::mutate_at("pct_missing", scales::percent) %>%
+      dplyr::mutate_if(is.integer, scales::comma) %>%
+      # dplyr::mutate_if(is.numeric, ~scales::comma(x = ., accuracy = 0.0001)) %>%
+      tibble::as_tibble()
   } else {
-    default_summary
+    summary_quantiles %>% tibble::as_tibble()
   }
+
 
 } # close function
