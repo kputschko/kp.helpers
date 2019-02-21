@@ -41,7 +41,7 @@ fx_describe <- function(data,
 
   default_summary <-
     foreach::foreach(i = seq_along(data), .combine = "rbind") %do% {
-      # foreach(i = 2, .combine = "rbind") %do% {
+    # foreach(i = 7, .combine = "rbind") %do% {
 
       index <- i
       column_name  <- data %>% colnames() %>% purrr::pluck(index)
@@ -69,9 +69,9 @@ fx_describe <- function(data,
           dplyr::select("column_name",
                         "column_type",
                         "n",
+                        "n_distinct",
                         "n_missing",
                         "pct_missing",
-                        "n_distinct",
                         "min",
                         "max",
                         "mean",
@@ -95,19 +95,25 @@ fx_describe <- function(data,
           dplyr::select("column_name",
                         "column_type",
                         "n",
-                        "n_missing",
                         "n_distinct",
+                        "n_missing",
+                        "pct_missing",
                         "min",
                         "max",
                         "mean",
                         "sd")
 
         if (output_format == "character") {
-          calculations %>% dplyr::mutate_if(is.numeric, scales::number_format(accuracy = 0.0001, big.mark = ",")) %>% tibble::as_tibble()
+          calculations %>%
+            dplyr::mutate_at("pct_missing", scales::percent) %>%
+            dplyr::mutate_if(is.integer, scales::comma) %>%
+            # dplyr::mutate_if(is.numeric, ~scales::comma(x = ., accuracy = 0.0001)) %>%
+            tibble::as_tibble()
         } else {
           calculations %>% tibble::as_tibble()
         }
-      }
+
+      } # close if-else
     } # close foreach
 
   if (percentile_include) {
