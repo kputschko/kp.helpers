@@ -40,8 +40,8 @@ fx_describe <- function(data,
 
 
   default_summary <-
-    foreach::foreach(i = seq_along(data), .combine = "rbind") %do% {
-      # foreach(i = 1:ncol(data), .combine = "rbind") %do% {
+    # foreach::foreach(i = seq_along(data), .combine = "rbind") %do% {
+      foreach(i = 2, .combine = "rbind") %do% {
 
       index <- i
       column_name  <- data %>% colnames() %>% purrr::pluck(index)
@@ -51,7 +51,7 @@ fx_describe <- function(data,
       # filter_rlang <- rlang::parse_quo(x = stringr::str_glue("is.na({column_name})"), env = rlang::caller_env())
       # n_missing <- data %>% filter(!!! filter_rlang) %>% nrow()
 
-      if (column_type %>% stringr::str_detect(c("factor", "character")) %>% any()) {
+      if (column_type %>% stringr::str_detect("factor|character|ordered") %>% any()) {
 
         data %>%
           dplyr::summarise("n" = dplyr::n(),
