@@ -59,6 +59,7 @@ fx_describe <- function(data,
                            "n_missing"  = sum(is.na(!! column_rlang))) %>%
           dplyr::mutate("column_name" = !! column_name,
                         "column_type" = stringr::str_c(!! column_type, collapse = ", "),
+                        "pct_missing" = n_missing / n,
                         "min" = NA,
                         "med" = NA,
                         "max" = NA,
@@ -69,6 +70,7 @@ fx_describe <- function(data,
                         "column_type",
                         "n",
                         "n_missing",
+                        "pct_missing",
                         "n_distinct",
                         "min",
                         "max",
@@ -88,7 +90,8 @@ fx_describe <- function(data,
                            "med" = stats::median(!! column_rlang, na.rm = TRUE),
                            "max" = max(!! column_rlang, na.rm = TRUE)) %>%
           dplyr::mutate("column_name" = !! column_name,
-                        "column_type" = stringr::str_c(!! column_type, collapse = ", ")) %>%
+                        "column_type" = stringr::str_c(!! column_type, collapse = ", "),
+                        "pct_missing" = n_missing / n) %>%
           dplyr::select("column_name",
                         "column_type",
                         "n",
@@ -100,7 +103,7 @@ fx_describe <- function(data,
                         "sd")
 
         if (output_format == "character") {
-          calculations %>% dplyr::mutate_if(is.numeric, scales::number_format(accuracy = 0.0001)) %>% tibble::as_tibble()
+          calculations %>% dplyr::mutate_if(is.numeric, scales::number_format(accuracy = 0.0001, big.mark = ",")) %>% tibble::as_tibble()
         } else {
           calculations %>% tibble::as_tibble()
         }
