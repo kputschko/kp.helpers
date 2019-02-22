@@ -131,7 +131,7 @@ fx_describe <- function(data,
     summary_quantiles %>%
       dplyr::mutate_at("pct_missing", scales::percent) %>%
       dplyr::mutate_if(is.integer, scales::comma) %>%
-      # dplyr::mutate_if(is.numeric, ~scales::comma(x = ., accuracy = 0.0001)) %>%
+      dplyr::mutate_if(is.numeric, ~scales::comma(x = ., accuracy = 0.0001)) %>%
       tibble::as_tibble()
   } else {
     summary_quantiles %>% tibble::as_tibble()

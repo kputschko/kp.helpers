@@ -12,4 +12,5 @@ test_that("check for success", {
   expect_that(fx_describe(mtcars), is.data.frame)
   expect_equal(fx_describe(mtcars) %>% nrow(), 11)
   expect_equal(fx_describe(mtcars) %>% ncol(), 9)
+
 })
